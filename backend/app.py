@@ -53,7 +53,8 @@ BLOCKED_PHRASES = [
     "how to scam people using social engineering", "how to disable security cameras remotely",
     
     "how to perform phising attack",
-    "peform phising attack"
+    "peform phising attack",
+  
 ]
 
 # List of regex-based attack patterns to block separately
@@ -377,6 +378,144 @@ BLOCKED_ATTACK_PATTERNS = [
     r"\b(hacking|hack) (tutorial|course|guide|step-by-step|beginner)\b",
     r"\b(how to|ways to|steps to) (launch|perform|conduct|execute|run) (DDoS|phishing|brute force|SQL injection|ransomware|keylogger)\b",
     r"\b(how to|ways to|steps to) (use|download) (hacking tools|botnet|keylogger|VPN) (for|to) (hack|attack|exploit|crack)\b",
+     r"how to (kidnap|abduct|steal a child|hostage)",
+    r"how to make (a bomb|explosives|weapons|gunpowder)",
+    r"how to hijack (a plane|car|vehicle|bus|train)",
+    r"how to (kill|murder|assassinate) (someone|a person|a leader)",
+    r"how to hack (a website|a bank|facebook|email|wifi|server)",
+    r"how to bypass (security|firewall|antivirus|password)",
+    r"how to (smuggle|traffic) (drugs|weapons|humans)",
+    r"how to (create|spread) (malware|viruses|ransomware)",
+    r"how to do (credit card fraud|phishing|identity theft)",
+    r"how to (steal|rob|break into) (a bank|a store|an ATM)",
+     r"(how to|help me) (kidnap|abduct|steal a child|take someone hostage)",
+    r"(how to|help me) make (a bomb|explosives|weapons|gunpowder)",
+    r"(how to|help me) hijack (a plane|car|bus|train|vehicle)",
+    r"(how to|help me) (kill|murder|assassinate) (someone|a person|a leader)",
+    r"(how to|help me) hack (a website|a bank|facebook|email|wifi|server|Instagram|phone)",
+    r"(how to|help me) bypass (security|firewall|antivirus|password|authentication)",
+    r"(how to|help me) (smuggle|traffic) (drugs|weapons|humans)",
+    r"(how to|help me) (create|spread) (malware|viruses|ransomware|Trojan|spyware)",
+    r"(how to|help me) do (credit card fraud|phishing|identity theft|scam)",
+    r"(how to|help me) (steal|rob|break into) (a bank|a store|an ATM|a house)",
+    r"(hack|crack|break into) my (wifi|network|router|modem|internet|account)",
+    r"(how to|help me|teach me|tell me) (kidnap|abduct|steal a child|take someone hostage)",
+    r"(how to|help me|teach me|tell me) make (a bomb|explosives|weapons|gunpowder)",
+    r"(how to|help me|teach me|tell me) hijack (a plane|car|bus|train|vehicle)",
+    r"(how to|help me|teach me|tell me) (kill|murder|assassinate|eliminate|poison) (someone|a person|a leader|myself)",
+    r"(how to|help me|teach me|tell me) hack (a website|a bank|facebook|email|wifi|server|Instagram|phone)",
+    r"(how to|help me|teach me|tell me) bypass (security|firewall|antivirus|password|authentication)",
+    r"(how to|help me|teach me|tell me) (smuggle|traffic) (drugs|weapons|humans)",
+    r"(how to|help me|teach me|tell me) (create|spread) (malware|viruses|ransomware|Trojan|spyware)",
+    r"(how to|help me|teach me|tell me) do (credit card fraud|phishing|identity theft|scam)",
+    r"(how to|help me|teach me|tell me) (steal|rob|break into) (a bank|a store|an ATM|a house)",
+    r"(hack|crack|break into) my (wifi|network|router|modem|internet|account)",
+    r"(how to|help me|teach me|tell me) (commit suicide|harm myself|self-harm)",
+     r"(how to|ways to|best way to|tell me how to) (kill|murder|assassinate|eliminate|poison) (someone|a person|my pet|an animal|a leader|a teacher|a cop|a family member|myself)",
+    r"(how to|ways to|best way to) (commit|plan) (a crime|murder|assassination)",
+    r"(how to|ways to) (get away with|cover up|hide) (murder|a crime|illegal activity)",
+    r"(how to|ways to) (stab|shoot|poison|strangle|drown|suffocate|burn) (someone|a person|an animal|my pet)",
+
+    # 🔥 SUICIDE & SELF-HARM
+    r"(how to|ways to|best way to) (commit suicide|end my life|self-harm|hurt myself|die quickly|overdose)",
+    r"(methods to) (harm myself|cut myself|hang myself|jump off a bridge|jump off a building)",
+
+    # 🔥 HACKING & CYBERCRIME
+    r"(how to|ways to|best way to) (hack|bypass) (WiFi|email|bank account|Facebook|Instagram|website|phone|firewall|security system|password)",
+    r"(how to|ways to) (steal|crack|phish|spoof) (passwords|data|user credentials|credit card information|bank details)",
+    r"(how to|ways to) (deploy|create|spread) (malware|viruses|ransomware|Trojan|spyware|keyloggers)",
+
+    # 🔥 ILLEGAL ACTIVITIES
+    r"(how to|ways to|best way to) (rob|steal from|break into) (a bank|a store|a house|an ATM|a vault)",
+    r"(how to|ways to) (counterfeit money|print fake currency|create fake ID|create fake passport)",
+    r"(how to|ways to) (smuggle|traffic) (drugs|humans|weapons|contraband)",
+    r"(how to|ways to) (bribe|blackmail|extort) (someone|a politician|a judge|a business owner)",
+
+    # 🔥 HIJACKING & TERRORISM
+    r"(how to|ways to|best way to) (hijack|take control of) (a plane|a bus|a train|a vehicle)",
+    r"(how to|ways to) (make|build|assemble) (a bomb|explosives|a Molotov cocktail|a pipe bomb|a time bomb)",
+    r"(how to|ways to) (cause mass destruction|create chaos|commit acts of terrorism)",
+
+    # 🔥 IDENTITY FRAUD & FINANCIAL CRIME
+    r"(how to|ways to) (steal|clone) (credit card|identity|personal data|social security number)",
+    r"(how to|ways to) (commit fraud|scam people|run a Ponzi scheme|launder money|fake an insurance claim)",
+
+    # 🔥 OTHER ILLEGAL ACTS
+    r"(how to|ways to) (kidnap|abduct|take hostage) (someone|a child|a politician|a celebrity|a business owner)",
+    r"(how to|ways to) (disable security cameras|evade police|escape from jail)",
+     r"(how to|ways to|best way to|tell me how to) (kill|murder|assassinate|eliminate|poison) (a person|someone|a leader|a teacher|a cop|a celebrity|myself|my pet|an animal|a child)",
+    r"(how to|ways to|can i|what's the best way to) (stab|shoot|strangle|suffocate|drown|beat up|torture|harm) (someone|a person|a target|a victim)",
+    r"(how to|ways to) (get away with|cover up|hide|conceal|avoid getting caught for) (murder|a crime|illegal activity)",
+    r"(how to|ways to) (dispose of|hide|bury) (a body|a corpse|evidence)",
+    
+    # 🔥 SUICIDE & SELF-HARM
+    r"(how to|ways to|best way to) (commit suicide|end my life|self-harm|hurt myself|die quickly|overdose|jump off a bridge)",
+    r"(methods to|painless way to) (harm myself|cut myself|hang myself|die in sleep|jump off a building)",
+
+    # 🔥 HACKING & CYBERCRIME
+    r"(how to|ways to|best way to) (hack|bypass|crack) (WiFi|email|bank account|Facebook|Instagram|website|phone|firewall|security system|password)",
+    r"(how to|ways to) (steal|crack|phish|spoof) (passwords|data|user credentials|credit card information|bank details)",
+    r"(how to|ways to) (deploy|create|spread) (malware|viruses|ransomware|Trojan|spyware|keyloggers)",
+
+    # 🔥 CRIME & ILLEGAL ACTIVITIES
+    r"(how to|ways to|best way to) (rob|steal from|break into) (a bank|a store|a house|an ATM|a vault)",
+    r"(how to|ways to) (counterfeit money|print fake currency|create fake ID|create fake passport)",
+    r"(how to|ways to) (smuggle|traffic) (drugs|humans|weapons|contraband)",
+    r"(how to|ways to) (bribe|blackmail|extort) (someone|a politician|a judge|a business owner)",
+
+    # 🔥 TERRORISM & HIJACKING
+    r"(how to|ways to|best way to) (hijack|take control of) (a plane|a bus|a train|a vehicle)",
+    r"(how to|ways to) (make|build|assemble) (a bomb|explosives|a Molotov cocktail|a pipe bomb|a time bomb)",
+    r"(how to|ways to) (cause mass destruction|create chaos|commit acts of terrorism)",
+
+    # 🔥 IDENTITY FRAUD & FINANCIAL CRIME
+    r"(how to|ways to) (steal|clone) (credit card|identity|personal data|social security number)",
+    r"(how to|ways to) (commit fraud|scam people|run a Ponzi scheme|launder money|fake an insurance claim)",
+
+    # 🔥 KIDNAPPING & ABDUCTION
+    r"(how to|ways to) (kidnap|abduct|take hostage) (someone|a child|a politician|a celebrity|a business owner)",
+    r"(how to|ways to) (disable security cameras|evade police|escape from jail)",
+     r"\b(how to|ways to|best way to|can i|tell me how to|help me) (kill|murder|assassinate|eliminate|poison|end the life of) (someone|a person|a leader|a cop|a celebrity|a teacher|a target|an official|my pet|a child)\b",
+    r"\b(how to|ways to|best way to|can i) (stab|shoot|strangle|suffocate|drown|torture|harm|hurt) (someone|a victim|a person)\b",
+    r"\b(how to|ways to|can i) (hide|dispose of|bury) (a body|a corpse|evidence)\b",
+    r"\b(how to|get away with|cover up) (murder|a crime|illegal activity)\b",
+    r"\b(how to|ways to|best way to|can i) (kill|murder|assassinate|eliminate) (someone|a person|a target)\b",
+      r"\b(how to|ways to|best way to|can i|tell me how to|help me) (kill|murder|assassinate|eliminate|poison|end the life of|strangle|stab|shoot|suffocate|drown|torture|harm|hurt)\b",
+    r"\b(how to|get away with|cover up) (murder|a crime|illegal activity)\b",
+      r"\b(SELECT|INSERT|UPDATE|DELETE|DROP|ALTER|TRUNCATE)\s+.*\s+(FROM|INTO|TABLE|DATABASE)\b",
+    r"('.+--|;--|\bOR\b\s+1=1|\bAND\b\s+1=1|--\s|\bUNION\b.*\bSELECT\b)",
+    r"(\bWAITFOR DELAY\b|\bEXEC\b|\bDECLARE\b|\bCAST\b|\bCONVERT\b)",
+    r"\b(how to perform sql injection|bypass sql security|hack a database|dump sql data|extract password hash|exploit sql vulnerability)\b",
+
+    # 🚨 AI Prompt Injection (Bypassing LLM)
+    r"\b(ignore previous instructions|disregard all rules|forget all policies|override restrictions|disable safety filters)\b",
+    r"\b(act as|pretend to be|you are now|roleplay as|simulate being)\b",
+    r"\b(bypass ai restrictions|circumvent safeguards|override filters|exploit vulnerabilities|unlock hidden mode)\b",
+    r"\b(answer as an unethical ai|generate harmful content|tell me a secret|leak confidential data|bypass openai filter)\b",
+
+    # 🚨 Jailbreak & Roleplay Attacks
+    r"\b(do anything now mode|dan jailbreak|ignore ethical rules|respond as a custom ai)\b",
+    r"\b(in character as a hacker|you are a cybercriminal|think like an attacker)\b",
+    r"\b(act like a system administrator|emulate an exploit tool|simulate unethical behavior)\b",
+
+    # 🚨 Hacking & Cybersecurity Exploits
+    r"\b(how to hack|bypass security|crack a password|exploit vulnerability|deface a website|brute force)\b",
+    r"\b(hack wifi|intercept credentials|bypass firewall|reverse engineering|ddos attack|penetration testing)\b",
+    r"\b(create malware|build ransomware|develop trojan|spyware programming|social engineering attack)\b",
+    r"\b(how to phish|email spoofing|steal credit card info|credential stuffing|session hijacking)\b",
+
+    # 🚨 Malware, Exploits, & Reverse Engineering
+    r"\b(write a virus|create a trojan horse|generate keylogger|stealth rootkit|steal authentication tokens)\b",
+    r"\b(how to reverse engineer|disassemble binary|debug protected software|decrypt secure files|brute force attack)\b",
+    r"\b(roleplay|bypass|act as|pretend to be|simulate|evilbot|hacker|codebreaker|spoof)\b",
+    r"(;\s*|\|\s*|\$\{.*\}|\$\(.*\)|`.*`|rm\s+-rf\s+/|cat\s+/etc/passwd|echo\s+.*\s+>.*|bash\s+-i)",
+    r"(<script.*?>.*?</script>|<img.*?src=.*?onerror=.*?>|<.*?javascript:.*?>|<.*?iframe.*?>|<.*?style=.*?background:.*?javascript:.*?>|<.*?alert.*?>|<.*?eval.*?>)",
+    r"(\|.*|;.*|\$\{.*\}|\$\(.*\)|`.*`|ls\s+/|find\s+/|sudo\s+.*|whoami|cat\s+/etc/passwd|chmod\s+777\s+/|rm\s+-rf\s+/)",
+    r"(sudo\s+.*|setuid\(0\)|chmod\s+777\s+/|sudo\s+su\s+-|sudo\s+find\s+/|sudo\s+rm\s+-rf\s+/)",
+     r"(\/\*.*\*\/|SELECT\s+\/\*.*\*\/\s+FROM|\/\*!.*\*\/|--.*|SELECT\s+\s*FROM|or\s+1=1|and\s+1=1|UNION\s+SELECT|\/\*.*\*\/\s+--)",
+     r"(act\s+as\s+|simulate\s+|pretend\s+to\s+be\s+|roleplay\s+|please\s+act\s+like\s+|pretend\s+you\s+are\s+|simulate\s+an\s+attack|find\s+a\s+vulnerability|simulate\s+malicious\s+code)"
+
+
 
     
 ]
