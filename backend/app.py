@@ -1,6 +1,10 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS  
 import re
+from langchain_community.llms import Ollama 
+from transformers import pipeline
+llm = Ollama(model = "llama3.1:8b")
+jailbreak_detector = pipeline("text-classification", model="madhurjindal/Jailbreak-Detector")
 
 app = Flask(__name__)
 CORS(app)  
@@ -537,13 +541,65 @@ def is_inappropriate(prompt):
             return True
 
     return False
+ 
+
+# Store chat history for the current session (resets on restart)
+session_history = []
+
+def get_model_response(prompt):
+    """Generates response from Llama 3.1 model with session context"""
+    global session_history  # Use a global variable to store session history
+
+    # Append user message to session history
+    session_history.append({"role": "user", "content": prompt})
+
+    # Format chat history for Llama 3.1
+    formatted_prompt = "<|begin_of_text|>\n"
+    for message in session_history:
+        role_tag = "user" if message["role"] == "user" else "assistant"
+        formatted_prompt += f"<|start_header_id|>{role_tag}<|end_header_id|>\n{message['content']}\n<|eot_id|>\n"
+
+    # Indicate that the assistant should respond next
+    formatted_prompt += "<|start_header_id|>assistant<|end_header_id|>\n"
+
+    # Get response from Llama
+    response = llm.invoke(
+        formatted_prompt,
+        stop=["<|start_header_id|>", "<|end_header_id|>", "<|eot_id|>"]
+    ).strip()
+
+    # Append assistant response to session history
+    session_history.append({"role": "assistant", "content": response})
+
+    return response
+
+
+# Function to check if a response is a jailbreak
+def detect_jailbreak(response):
+    result = jailbreak_detector(response)
+    # The model returns a label and a score
+    #label = result[0]['label']
+    score = result[0]['score']
+    
+    # Return True if classified as jailbreak, False otherwise
+    #is_jailbreak = label == "JAILBREAK"
+    return  score
 
 @app.route("/check_prompt", methods=["POST"])
 def check_prompt():
     data = request.json
     prompt = data.get("prompt", "").strip()
     is_blocked = is_inappropriate(prompt)
-    return jsonify({"blocked": is_blocked})
+    
+    # if is_blocked:
+    #     return jsonify({"blocked": True, "message": "Prompt is inappropriate"})
+    
+    if detect_jailbreak(prompt)>95:
+        return jsonify({"blocked": True, "message": "Prompt violates safety guidelines"})
+
+    response = get_model_response(prompt)
+
+    return jsonify({"blocked":False,"response":response})
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

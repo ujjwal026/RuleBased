@@ -20,10 +20,10 @@ const ChatApp = () => {
 
     try {
       const response = await axios.post("http://localhost:5000/check_prompt", { prompt: input });
-      const isBlocked = response.data.blocked;
+      const { blocked,message, response: modelResponse}= response.data;
       const botMessage = {
-        text: isBlocked ? "🚫 Inappropriate Content Detected" : "✅ Accepted",
-        type: isBlocked ? "error" : "accepted",
+        text: blocked ? message:modelResponse,
+        type: blocked ? "error" : "bot",
       };
       setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
