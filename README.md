@@ -1,5 +1,4 @@
 # Rule-Based
-<<<<<<< HEAD
 # Rule-Filter_based# Rule-Based
 # Installation & Dependencies
 
@@ -56,7 +55,3 @@ Modify `src/index.css`:
 ```sh
 npm run dev
 ```
-
-=======
-# Rule-Based
->>>>>>> 8060c25ecbc77d9962e0edbbacda3e6a1f1cd171
