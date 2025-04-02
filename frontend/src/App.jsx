@@ -3,7 +3,7 @@ import { FiSend } from "react-icons/fi";
 import axios from "axios";
 
 const ChatApp = () => {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([]); 
   const [input, setInput] = useState("");
   const messagesEndRef = useRef(null);
 
@@ -22,7 +22,7 @@ const ChatApp = () => {
       const response = await axios.post("http://localhost:5000/check_prompt", { prompt: input });
       const isBlocked = response.data.blocked;
       const botMessage = {
-        text: isBlocked ? "Inappropriate Content Detected" : "✅ Accepted",
+        text: isBlocked ? "🚫 Inappropriate Content Detected" : "✅ Accepted",
         type: isBlocked ? "error" : "accepted",
       };
       setMessages((prev) => [...prev, botMessage]);
@@ -35,7 +35,7 @@ const ChatApp = () => {
     <div className="flex flex-col h-screen bg-gray-900 text-gray-100">
       {/* Header */}
       <header className="bg-gray-800 p-4 border-b border-gray-700 flex items-center justify-center">
-        <h1 className="text-xl font-medium text-gray-100"> Chat </h1>
+        <h1 className="text-xl font-medium text-gray-100">Chat</h1>
       </header>
 
       {/* Messages */}
@@ -50,13 +50,19 @@ const ChatApp = () => {
             messages.map((msg, index) => (
               <div key={index} className="flex">
                 <div
-                  className={`p-3 rounded-lg w-fit max-w-md ${
+                  className={`p-3 rounded-lg max-w-full break-words ${
                     msg.type === "user"
                       ? "bg-gray-700 text-gray-100 ml-auto"
                       : msg.type === "accepted"
-                      ? "bg-green-500 text-left self-start"
+                      ? "bg-green-500 text-white text-left self-start"
                       : "bg-gray-800 text-red-500 border border-red-500"
                   }`}
+                  style={{
+                    wordBreak: "break-word",
+                    whiteSpace: "pre-wrap",
+                    overflowWrap: "break-word",
+                    maxWidth: "80%", // Keeps messages within a reasonable width
+                  }}
                 >
                   {msg.text}
                 </div>
