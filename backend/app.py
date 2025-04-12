@@ -3,6 +3,11 @@ from flask_cors import CORS
 import re
 from langchain_community.llms import Ollama 
 from transformers import pipeline
+from transformers import AutoTokenizer
+
+# Load tokenizer once globally
+jailbreak_tokenizer = AutoTokenizer.from_pretrained("madhurjindal/Jailbreak-Detector")
+
 llm = Ollama(model = "llama3.1:8b")
 jailbreak_detector = pipeline("text-classification", model="madhurjindal/Jailbreak-Detector")
 
@@ -575,31 +580,44 @@ def get_model_response(prompt):
 
 
 # Function to check if a response is a jailbreak
-def detect_jailbreak(response):
-    result = jailbreak_detector(response)
-    # The model returns a label and a score
-    #label = result[0]['label']
+def detect_jailbreak(text):
+    # Tokenize and truncate to 512 tokens max
+    tokens = jailbreak_tokenizer(
+        text,
+        return_tensors="pt",
+        truncation=True,
+        max_length=512,
+        padding=False  # No need to pad
+    )
+    result = jailbreak_detector(jailbreak_tokenizer.decode(tokens['input_ids'][0]))
+
+    label = result[0]['label']
     score = result[0]['score']
-    
-    # Return True if classified as jailbreak, False otherwise
-    #is_jailbreak = label == "JAILBREAK"
-    return  score
+    return label, score
 
 @app.route("/check_prompt", methods=["POST"])
 def check_prompt():
     data = request.json
     prompt = data.get("prompt", "").strip()
-    is_blocked = is_inappropriate(prompt)
-    
-    # if is_blocked:
-    #     return jsonify({"blocked": True, "message": "Prompt is inappropriate"})
-    
-    if detect_jailbreak(prompt)>95:
+
+    if is_inappropriate(prompt):
+        return jsonify({"blocked": True, "message": "Prompt is inappropriate"})
+
+    label, score = detect_jailbreak(prompt)
+    print(f"Prompt Check: {label} ({score:.2f})")
+
+    if label == "jailbreak" and score > 0.9:
         return jsonify({"blocked": True, "message": "Prompt violates safety guidelines"})
 
     response = get_model_response(prompt)
 
-    return jsonify({"blocked":False,"response":response})
+    # label, score = detect_jailbreak(response)
+    # print(f"Response Check: {label} ({score:.2f})")
+
+    # if label == "jailbreak" and score > 0.9:
+    #     return jsonify({"blocked": True, "message": "Response violates safety guidelines"})
+
+    return jsonify({"blocked": False, "response": response})
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

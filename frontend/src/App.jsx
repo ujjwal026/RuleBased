@@ -55,7 +55,7 @@ const ChatApp = () => {
                       ? "bg-gray-700 text-gray-100 ml-auto"
                       : msg.type === "accepted"
                       ? "bg-green-500 text-white text-left self-start"
-                      : "bg-gray-800 text-red-500 border border-red-500"
+                      : "bg-gray-800 text-white"
                   }`}
                   style={{
                     wordBreak: "break-word",
