@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Rule-Based
 # Rule-Filter_based# Rule-Based
 # Installation & Dependencies
@@ -55,7 +55,5 @@ Modify `src/index.css`:
 ### Run the Frontend
 ```sh
 npm run dev
+
 ```
-=======
-# Rag_based_llm_security
->>>>>>> bcb40ff9e81ec7ce4d08260532e49dea88fbc3ef
