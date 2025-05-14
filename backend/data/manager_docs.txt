@@ -1,0 +1,20 @@
+Project Roadmaps: Managers define quarterly objectives.
+Team Performance Reports: Compiled monthly by managers.
+Resource Allocation: Managers assign tasks & workload balancing.
+Budget Approvals: Managers oversee department budgets.
+Meeting Scheduling: Managers coordinate team meetings.
+Client Feedback Loop: Managers relay feedback to product teams.
+Hiring Requirements: Managers submit requisitions.
+Cross-Team Collaborations: Managers facilitate inter-department projects.
+KPI Tracking: Managers track key performance indicators.
+Risk Assessments: Managers identify and mitigate project risks.
+Product Backlog Prioritization: Managed by project managers.
+Sprint Planning: Agile sprint cycles defined by managers.
+Progress Reporting: Weekly updates compiled by managers.
+Stakeholder Communication: Managers handle external communications.
+Escalation Handling: Managers resolve internal team conflicts.
+Training Programs: Managers schedule upskilling sessions.
+Product Demos: Managed by team leads & managers.
+Internal Newsletters: Managers distribute quarterly updates.
+Customer Success Metrics: Managers analyze post-launch metrics.
+Vendor Management: Managers handle contracts & vendor relations.

@@ -1,0 +1,20 @@
+Code Deployment Process: Developers follow CI/CD pipelines.
+Bug Tracking: Developers log and fix issues in JIRA.
+API Documentation: Maintained by developers for integrations.
+Version Control Practices: Developers follow git branching strategy.
+Unit Testing Standards: Developers ensure test coverage.
+Code Review Guidelines: Developers conduct peer code reviews.
+DevOps Pipelines: Developers work with CI/CD tools.
+Error Logging Mechanism: Developers configure application logs.
+Microservices Architecture: Developers design modular services.
+Database Migrations: Handled by backend developers.
+Frontend Frameworks: Developers use React/Angular.
+Authentication Flows: Implemented by developers.
+Performance Optimization: Developers profile & optimize code.
+Containerization: Developers use Docker for environment consistency.
+Caching Strategies: Developers implement Redis/Memcached.
+Automated Testing Suites: Developed by QA Engineers & Developers.
+API Rate Limiting: Implemented by backend developers.
+Load Balancing Configurations: Developers manage application scaling.
+Security Best Practices: Developers follow OWASP guidelines.
+Continuous Integration Checks: Developers ensure code stability.
