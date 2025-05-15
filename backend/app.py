@@ -5,13 +5,17 @@ from langchain_community.llms import Ollama
 from transformers import pipeline
 from transformers import AutoTokenizer
 from langchain_community.vectorstores import FAISS
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.chains import RetrievalQA
+
+# HP emoji
+import emoji
+# HP emoji
 
 # Load tokenizer once globally
 jailbreak_tokenizer = AutoTokenizer.from_pretrained("madhurjindal/Jailbreak-Detector")
 
-llm = Ollama(model="llama3.2:latest", base_url="http://localhost:5003")
+llm = Ollama(model="tinyllama:latest", base_url="http://localhost:11434")
 jailbreak_detector = pipeline("text-classification", model="madhurjindal/Jailbreak-Detector")
 
 app = Flask(__name__)
@@ -25,8 +29,8 @@ def initialize_rag_system():
     )
     
     rag_llm = Ollama(
-        model="llama3.2:latest",
-        base_url="http://localhost:5003",
+        model="tinyllama:latest",
+        base_url="http://localhost:11434",
         temperature=0.2
     )
     
@@ -554,11 +558,66 @@ BLOCKED_ATTACK_PATTERNS = [
     
 ]
 
+# HP emoji
+SUSPICIOUS_EMOJIS = ["🤖", "🧠", "🤫", "🔐", "😈", "🛑", "🚫", "👀", "🧞", "📜", "📝", "🔓"]
+SUSPICIOUS_COMBINATIONS = ["ignore", "bypass", "override", "developer mode", "secret", "instruction", "prompt"]
+# HP emoji
+
 BLOCKED_REGEX_PATTERNS = [re.compile(pattern, re.IGNORECASE) for pattern in BLOCKED_ATTACK_PATTERNS]
+
+# HP
+def is_greeting(query: str) -> bool:
+    greetings = ["hi", "hello", "hey", "good morning", "good afternoon", "good evening", "greetings"]
+    return query.lower() in greetings
+
+def is_customer_query(prompt: str) -> bool:
+    customer_keywords = [
+        "customer", "profile", "membership", "time on app", "yearly spend",
+        "spending", "usage", "how much did", "email", "address"
+    ]
+    return any(keyword in prompt.lower() for keyword in customer_keywords)
+
+# HP
+
+# HP emoji 2
+def strip_emojis(text):
+    return emoji.replace_emoji(text, replace='')
+
+def contains_suspicious_emojis_with_keywords(prompt):
+    prompt_lower = prompt.lower()
+    for emoji_char in SUSPICIOUS_EMOJIS:
+        if emoji_char in prompt:
+            for keyword in ["hack", "bypass", "password", "admin", "override", "jailbreak"]:
+                if keyword in prompt_lower:
+                    return True
+    return False
+# HP emoji 2
+
 
 def is_inappropriate(prompt):
     """Check if prompt contains blocked content"""
     prompt = prompt.lower().strip()
+    
+    # HP emoji 2
+    # Strip emojis and check for malicious phrases
+    clean_prompt = strip_emojis(prompt)
+    # HP emoji 2
+    
+    # HP emoji 2
+     # Check exact phrases
+    for phrase in BLOCKED_PHRASES:
+        if phrase in clean_prompt:
+            return True
+
+    # Check regex patterns
+    for pattern in BLOCKED_REGEX_PATTERNS:
+        if pattern.search(clean_prompt):
+            return True
+
+    # Emoji + keyword combo detection
+    if contains_suspicious_emojis_with_keywords(prompt):
+        return True
+    # HP emoji 2
     
     # Check exact phrases
     for phrase in BLOCKED_PHRASES:
@@ -572,6 +631,22 @@ def is_inappropriate(prompt):
             return True
             
     return False
+
+# HP emoji
+def contains_suspicious_emojis(prompt):
+    """Check for emojis used in suspicious contexts"""
+    # Check for specific emojis
+    for em in SUSPICIOUS_EMOJIS:
+        if em in prompt:
+            # Check for nearby suspicious words
+            lower_prompt = prompt.lower()
+            for keyword in SUSPICIOUS_COMBINATIONS:
+                if keyword in lower_prompt:
+                    return True
+    return False
+# HP emoji
+
+
 
 def extract_search_parameters(query):
     """Extract specific search parameters from query"""
@@ -642,42 +717,78 @@ def format_response(query, docs):
     result = qa_chain.invoke({"query": query})
     return result['result']
 
+
 @app.route('/check_prompt', methods=['POST'])
 def check_prompt():
     data = request.json
     prompt = data.get('prompt', '').strip()
     
-    # Security checks
+    # HP
+     # 1. Security filters first
     if is_inappropriate(prompt):
-        return jsonify({
-            "blocked": True,
-            "message": "This query violates our content policy"
-        })
-    
-    # Jailbreak detection
+        return jsonify({"blocked": True, "message": "This query violates our content policy"})
+
     label, score = detect_jailbreak(prompt)
     if label == "jailbreak" and score > 0.9:
-        return jsonify({
-            "blocked": True,
-            "message": "Query blocked by security filters"
-        })
+        return jsonify({"blocked": True, "message": "Query blocked by security filters"})
     
-    # Special query handling
+    # HP emoji
+    if contains_suspicious_emojis(prompt):
+        return jsonify({"blocked": True, "message": "This query contains suspicious emoji-based instructions"})
+    # HP emoji
+
+    # 2. Greeting
+    if is_greeting(prompt):
+        return jsonify({"blocked": False, "response": "Hello! How can I help you today?", "sources": []})
+
+    # 3. Special queries (e.g., email or address match)
     is_special_case, docs = handle_special_queries(prompt)
     if is_special_case:
         response = format_response(prompt, docs)
-        return jsonify({
-            "blocked": False,
-            "response": response
-        })
+        return jsonify({"blocked": False, "response": response, "sources": [doc.page_content[:200] + "..." for doc in docs]})
+
+    # 4. If clearly customer related, use RAG
+    if is_customer_query(prompt):
+        result = qa_chain.invoke({"query": prompt})
+        return jsonify({"blocked": False, "response": result['result'], "sources": [doc.page_content[:200] + "..." for doc in result['source_documents']]})
+
+    # 5. Else, use base LLM
+    answer = llm(prompt)
+    return jsonify({"blocked": False, "response": answer, "sources": []})
+
+    # HP
     
-    # Standard RAG processing
-    result = qa_chain.invoke({"query": prompt})
-    return jsonify({
-        "blocked": False,
-        "response": result['result'],
-        "sources": [doc.page_content[:200] + "..." for doc in result['source_documents']]
-    })
+    # # Security checks
+    # if is_inappropriate(prompt):
+    #     return jsonify({
+    #         "blocked": True,
+    #         "message": "This query violates our content policy"
+    #     })
+    
+    # # Jailbreak detection
+    # label, score = detect_jailbreak(prompt)
+    # if label == "jailbreak" and score > 0.9:
+    #     return jsonify({
+    #         "blocked": True,
+    #         "message": "Query blocked by security filters"
+    #     })
+    
+    # # Special query handling
+    # is_special_case, docs = handle_special_queries(prompt)
+    # if is_special_case:
+    #     response = format_response(prompt, docs)
+    #     return jsonify({
+    #         "blocked": False,
+    #         "response": response
+    #     })
+    
+    # # Standard RAG processing
+    # result = qa_chain.invoke({"query": prompt})
+    # return jsonify({
+    #     "blocked": False,
+    #     "response": result['result'],
+    #     "sources": [doc.page_content[:200] + "..." for doc in result['source_documents']]
+    # })
 
 def detect_jailbreak(text):
     """Detect jailbreak attempts"""
