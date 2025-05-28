@@ -7,10 +7,10 @@ from transformers import AutoTokenizer
 from blocked_content import BLOCKED_PHRASES, BLOCKED_REGEX_PATTERNS
 
 # Load tokenizer once globally
-jailbreak_tokenizer = AutoTokenizer.from_pretrained("madhurjindal/Jailbreak-Detector")
+jailbreak_tokenizer = AutoTokenizer.from_pretrained("uj26/Securing_llm_model")
 
 llm = Ollama(model = "llama3.1:8b")
-jailbreak_detector = pipeline("text-classification", model="madhurjindal/Jailbreak-Detector")
+jailbreak_detector = pipeline("text-classification", model="uj26/Securing_llm_model")
 
 app = Flask(__name__)
 CORS(app)  
