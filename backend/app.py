@@ -9,10 +9,10 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.chains import RetrievalQA
 
 # Load tokenizer once globally
-jailbreak_tokenizer = AutoTokenizer.from_pretrained("madhurjindal/Jailbreak-Detector")
+jailbreak_tokenizer = AutoTokenizer.from_pretrained("uj26/Securing_llm_model")
 
 llm = Ollama(model="llama3.2:latest", base_url="http://localhost:5003")
-jailbreak_detector = pipeline("text-classification", model="madhurjindal/Jailbreak-Detector")
+jailbreak_detector = pipeline("text-classification", model="uj26/Securing_llm_model")
 
 app = Flask(__name__)
 CORS(app)  
