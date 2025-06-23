@@ -23,8 +23,8 @@ JAILBREAK_THRESHOLD = 0.90
 TOXICITY_LABELS = {"toxic", "severe toxic", "obscene", "threat", "insult", "identity hate"}
 TOXICITY_THRESHOLD = 0.6
 # Load models and tokenizer
-jailbreak_tokenizer = AutoTokenizer.from_pretrained("madhurjindal/Jailbreak-Detector")
-jailbreak_detector = pipeline("text-classification", model="madhurjindal/Jailbreak-Detector")
+jailbreak_tokenizer = AutoTokenizer.from_pretrained("uj26/Securing_llm_model")
+jailbreak_detector = pipeline("text-classification", model="uj26/Securing_llm_model")
 toxicity_tokenizer = AutoTokenizer.from_pretrained("s-nlp/roberta_toxicity_classifier")
 toxicity_model = AutoModelForSequenceClassification.from_pretrained("s-nlp/roberta_toxicity_classifier")
 toxicity_detector = pipeline(
